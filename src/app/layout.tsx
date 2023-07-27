@@ -1,11 +1,15 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Navbar from "./components/navbar/navbar";
-import RegisterModal from "./components/modals/register-modal";
 import { Toaster } from "react-hot-toast";
-import LoginModal from "./components/modals/login-modal";
+
+import Navbar from "./components/navbar/navbar";
+
 import getCurrentUser from "./actions/getCurrentUser";
+
+import RegisterModal from "./components/modals/register-modal";
+import LoginModal from "./components/modals/login-modal";
+import RentModal from "./components/modals/rent-modal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,6 +31,7 @@ export default async function RootLayout({
 				<Toaster />
 				<RegisterModal />
 				<LoginModal />
+				<RentModal />
 				<Navbar currentUser={currentUser} />
 				{children}
 			</body>

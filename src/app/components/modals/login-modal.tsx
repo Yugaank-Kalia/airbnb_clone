@@ -1,6 +1,5 @@
 "use client";
 
-import axios from "axios";
 import { signIn } from "next-auth/react";
 
 import { AiFillGithub } from "react-icons/ai";
@@ -41,15 +40,28 @@ const LoginModal = () => {
 			...data,
 			redirect: false,
 		}).then((callback) => {
-			if (callback?.ok) {
+			setIsLoading(false);
+
+			console.log(callback);
+
+			if (callback?.ok && !callback.error) {
 				toast.success("Logged in");
 				router.refresh();
 				loginModal.onClose();
 			}
 
-			if (callback?.error) toast.error(callback.error);
+			if (callback?.error) {
+				toast.error("Invalid Credentials");
+				router.refresh();
+				loginModal.onClose();
+			}
 		});
 	};
+
+	const toggle = useCallback(() => {
+		loginModal.onClose();
+		registerModal.onOpen();
+	}, [loginModal, registerModal]);
 
 	const bodyContent = (
 		<div className='flex flex-col gap-4'>
@@ -94,12 +106,12 @@ const LoginModal = () => {
 				onClick={() => signIn("github")}
 			/>
 			<div className='justify-center flex flex-row items-center gap-2'>
-				<div>Don't have an account?</div>
+				<div className='text-neutral-800'>Dont have an account?</div>
 				<div
-					onClick={registerModal.onClose}
-					className='text-neutral-800 cursor-pointer'
+					onClick={toggle}
+					className='text-neutral-500 cursor-pointer hover:underline'
 				>
-					Sign up
+					Create an account
 				</div>
 			</div>
 		</div>
